@@ -30,4 +30,4 @@ git reflog `查看历史git命令`
 
 
 
-![1](.\tupian\1.png)
+![1](./tupian/1.png)
