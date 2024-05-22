@@ -290,4 +290,8 @@ $ git merge --no-ff -m "merge with no-ff" dev
 
 ![2](.\tupian\2.png)
 
-只看最上面两个提交一个是在dev的提交一个是合并之后的总提交
+```bash
+`只看最上面两个提交一个是在dev的提交一个是合并之后的总提交`
+`如果在合并分支的时候遇到了冲突那么需要解决然后add然后commit`
+```
+
