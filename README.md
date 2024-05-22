@@ -297,3 +297,80 @@ $ git merge --no-ff -m "merge with no-ff" dev
 `如果在合并分支的时候遇到了冲突那么需要解决然后add然后commit`
 ```
 
+## BUG分支
+
+```bash
+`用于遇到正在修改分支的时候又接到了其他的分支的修改任务`
+`首先如果再一个分支里面进行了git add 的操作之后是不能切换到别的分支的，所以我们需要一些指令来保存我们现在的工作区`
+`假设场景：`
+`		我们再dev上正在新增新的功能但是我们的主分支出现了一些bug，我们已经使用git add对代码进行了提交但是我么不想一个还没修改完的工程出现在分支树上那么我们git stash先保存一下隐藏一下我们现在的暂存区，接着我们去主分支和创建新的分支修改完bug之后切回来，git stash list来看一下我们隐藏的所有的工作区，一是用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除另一种方式是用git stash pop，恢复的同时把stash内容也删了`
+$ git stash`隐藏工作区
+$ git stash list`列出隐藏的工作区
+$ git stash apply`恢复工作区但是不删除记录
+$ git stash drop`删除记录
+$ git stash pop`恢复并删除
+```
+
+##Feature分支
+
+```bash
+`用于正在新的节点更新功能的时候被告知新的功能不需要了`
+$ git switch -c feature-vulcan `创建一个节点用于增加功能`
+$ git add vulcan.py`把增加功能的代码加入暂存区`
+$ git switch dev`准备合并`
+$ git branch -D feature-vulcan`不用合并了删除了功能分支`
+```
+
+## 多人协作github
+
+```bash
+`如果我和我的小伙伴都在给远程仓库的同一个分支提交代码`
+`我的小伙伴：`
+$ git clone git@github.com:michaelliao/learngit.git
+$ git branch
+* master
+$ git checkout -b dev origin/dev
+$ git add env.txt
+$ git commit -m "add env"
+$ git push origin dev
+`我：`
+$ cat env.txt
+$ git add env.txt
+$ git push origin dev `遇到冲突`
+$ git branch --set-upstream-to=origin/dev dev `链接远程仓库`
+$ git pull
+$ git commit -m "fix env conflict" `如果有冲突`
+$ git push origin dev
+```
+
+# 标签管理
+
+## 创建标签
+
+```bash
+` 注意：标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。
+$ git branch
+* dev
+  master
+$ git checkout master
+Switched to branch 'master'
+$ git tag v1.0
+$ git tag
+v1.0
+`默认标签是打在最新提交的commit上的。有时候，如果忘了打标签，比如，现在已经是周五了，但应该在周一打的标签没有打，怎么办？`
+$ git log --pretty=oneline --abbrev-commit
+12a631b (HEAD -> master, tag: v1.0, origin/master) merged bug fix 101
+4c805e2 fix bug 101
+e1e9c68 merge with no-ff
+f52c633 add merge
+cf810e4 conflict fixed
+5dc6824 & simple
+$ git tag v0.9 f52c633
+$ git tag
+v0.9
+v1.0
+
+$ git tag -a v0.1 -m "version 0.1 released" 1094adb
+
+```
+
